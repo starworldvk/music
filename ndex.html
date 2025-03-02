@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Music Player</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+  <style>
+    body { font-family: 'Roboto', sans-serif; }
+  </style>
+</head>
+<body class="bg-gray-900 text-white">
+  <div class="flex flex-col md:flex-row h-screen">
+    <!-- Sidebar -->
+    <div class="bg-gray-800 w-full md:w-1/4 lg:w-1/5 p-4 flex flex-col">
+      <div class="flex items-center justify-between mb-8 md:mb-0">
+        <div class="flex items-center">
+          <img alt="Logo" class="w-12 h-12 mr-2" src="https://storage.googleapis.com/a1aa/image/T6Vo7L69SQyC8GC-e-jGz-OZVQWLvW0XI-Tlqpao5rc.jpg"/>
+          <h1 class="text-2xl font-bold">Music Player</h1>
+        </div>
+        <button class="text-gray-400 hover:text-white md:hidden" id="menu-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+      <nav class="flex-1 md:block hidden" id="menu">
+        <ul>
+          <li class="mb-4">
+            <a class="flex items-center text-gray-400 hover:text-white" href="index.html">
+              <i class="fas fa-home mr-3"></i> Home
+            </a>
+          </li>
+          <li class="mb-4">
+            <a class="flex items-center text-gray-400 hover:text-white" href="#">
+              <i class="fas fa-search mr-3"></i> Search
+            </a>
+          </li>
+          <li class="mb-4">
+            <a id="library-link" class="flex items-center text-gray-400 hover:text-white" href="library.html">
+              <i class="fas fa-bookmark mr-3"></i> Your Library
+            </a>
+          </li>
+          <li class="mb-4">
+            <a class="flex items-center text-gray-400 hover:text-white" href="#">
+              <i class="fas fa-plus-square mr-3"></i> Create Playlist
+            </a>
+          </li>
+          <li class="mb-4">
+            <a class="flex items-center text-gray-400 hover:text-white" href="#">
+              <i class="fas fa-heart mr-3"></i> Liked Songs
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <div class="mt-auto hidden md:block">
+        <a class="flex items-center text-gray-400 hover:text-white" href="#">
+          <i class="fas fa-cog mr-3"></i> Settings
+        </a>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col">
+      <!-- Header -->
+      <header class="bg-gray-800 p-4 flex items-center justify-between">
+        <div class="flex items-center w-full">
+          <input class="bg-gray-700 text-white p-2 rounded-lg w-full" placeholder="Search" type="text"/>
+        </div>
+        <div class="flex items-center ml-4">
+          <img alt="User" class="w-10 h-10 rounded-full" src="https://storage.googleapis.com/a1aa/image/NJZUeNb9z9NKYCFfYNa_exGP9NEbZd9hPPPgelSskek.jpg"/>
+        </div>
+      </header>
+
+      <!-- Content: Album Cards -->
+      <div class="flex-1 overflow-y-auto p-4" id="main-content">
+        <h2 class="text-2xl font-bold mb-4">Recently Played</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+          <!-- Each album card with data-index attribute -->
+          <div class="album-card bg-gray-800 p-4 rounded-lg cursor-pointer" data-index="0">
+            <img alt="Album cover 1" class="w-full h-40 object-cover rounded-lg mb-4" src="https://storage.googleapis.com/a1aa/image/A_BrFskuhQ6-B5Z0VecmUyAD1OwmWVfPHXooN6Xrf-s.jpg"/>
+            <h3 class="text-lg font-semibold">Song Title 1</h3>
+            <p class="text-gray-400">Artist Name 1</p>
+          </div>
+          <div class="album-card bg-gray-800 p-4 rounded-lg cursor-pointer" data-index="1">
+            <img alt="Album cover 2" class="w-full h-40 object-cover rounded-lg mb-4" src="https://storage.googleapis.com/a1aa/image/-9LLKkNubSw-DhEtsiSK8oRcVz1Mvh9SRjLxOBhWs3Q.jpg"/>
+            <h3 class="text-lg font-semibold">Song Title 2</h3>
+            <p class="text-gray-400">Artist Name 2</p>
+          </div>
+          <div class="album-card bg-gray-800 p-4 rounded-lg cursor-pointer" data-index="2">
+            <img alt="Album cover 3" class="w-full h-40 object-cover rounded-lg mb-4" src="https://storage.googleapis.com/a1aa/image/R6Lb_Kf6TLyRpXyqq2co4KrpZEhsdOu8tysAmN8kbQY.jpg"/>
+            <h3 class="text-lg font-semibold">Song Title 3</h3>
+            <p class="text-gray-400">Artist Name 3</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Player -->
+      <footer class="bg-gray-800 p-4 flex flex-col sm:flex-row items-center justify-between">
+        <div class="flex items-center mb-4 sm:mb-0">
+          <img alt="Now Playing" class="w-12 h-12 mr-4" src="https://storage.googleapis.com/a1aa/image/gIz5NyDsfcH3v2TjAyL2fCc_D7DbXwFkW5Nu8eGKs_Q.jpg"/>
+          <div>
+            <h3 class="text-lg font-semibold">Song Title</h3>
+            <p class="text-gray-400">Artist Name</p>
+          </div>
+        </div>
+        <div class="flex items-center mb-4 sm:mb-0">
+          <button id="shuffle" class="text-gray-400 hover:text-white mx-2"><i class="fas fa-random"></i></button>
+          <button id="prev" class="text-gray-400 hover:text-white mx-2"><i class="fas fa-step-backward"></i></button>
+          <button id="play" class="text-gray-400 hover:text-white mx-2"><i class="fas fa-play-circle text-2xl"></i></button>
+          <button id="next" class="text-gray-400 hover:text-white mx-2"><i class="fas fa-step-forward"></i></button>
+          <button id="repeat" class="text-gray-400 hover:text-white mx-2"><i class="fas fa-redo"></i></button>
+        </div>
+        <div class="flex items-center">
+          <span id="current-time" class="text-gray-400">0:00</span>
+          <div id="progress-container" class="bg-gray-700 h-1 w-24 sm:w-32 mx-2 rounded-lg cursor-pointer relative">
+            <div id="progress" class="bg-green-500 h-1 w-0 rounded-lg"></div>
+          </div>
+          <span id="duration" class="text-gray-400">0:00</span>
+        </div>
+        <div class="flex items-center">
+          <button id="vol-down" class="text-gray-400 hover:text-white mx-2"><i class="fas fa-volume-down"></i></button>
+          <div id="vol-container" class="bg-gray-700 h-1 w-16 sm:w-24 mx-2 rounded-lg cursor-pointer relative">
+            <div id="vol-progress" class="bg-green-500 h-1" style="width: 50%;"></div>
+          </div>
+          <button id="vol-up" class="text-gray-400 hover:text-white mx-2"><i class="fas fa-volume-up"></i></button>
+        </div>
+      </footer>
+    </div>
+  </div>
+  <div class="fixed bottom-0 left-0 right-0 bg-gray-800 p-4 flex justify-around md:hidden">
+    <a class="flex flex-col items-center text-gray-400 hover:text-white" href="index.html">
+      <i class="fas fa-home text-xl"></i>
+      <span class="text-sm">Home</span>
+    </a>
+    <a class="flex flex-col items-center text-gray-400 hover:text-white" href="library.html">
+      <i class="fas fa-bookmark text-xl"></i>
+      <span class="text-sm">Library</span>
+    </a>
+  </div>
+
+  <script>
+    // Toggle sidebar on mobile
+    document.getElementById('menu-toggle').addEventListener('click', function(){
+      document.getElementById('menu').classList.toggle('hidden');
+    });
+
+    // SONG DATA ARRAY
+    const songs = [
+    {
+        title: "prais ka trip",
+        artist: "Artist Name 1",
+        src: "prais ka trip.mp3",
+        cover: "https://storage.googleapis.com/a1aa/image/A_BrFskuhQ6-B5Z0VecmUyAD1OwmWVfPHXooN6Xrf-s.jpg"
+      },
+      {
+        title: "Blue Eyes",
+        artist: "Artist Name 2",
+        src: "Blue Eyes.m4a",
+        cover: "https://storage.googleapis.com/a1aa/image/-9LLKkNubSw-DhEtsiSK8oRcVz1Mvh9SRjLxOBhWs3Q.jpg"
+      },
+      {
+        title: "Song Title 3",
+        artist: "Artist Name 3",
+        src: "song3.mp3",
+        cover: "https://storage.googleapis.com/a1aa/image/R6Lb_Kf6TLyRpXyqq2co4KrpZEhsdOu8tysAmN8kbQY.jpg"
+      }
+    ];
+
+    let currentSongIndex = localStorage.getItem("currentSongIndex") ? parseInt(localStorage.getItem("currentSongIndex")) : 0;
+    let volume = localStorage.getItem("volume") ? parseFloat(localStorage.getItem("volume")) : 0.5;
+    let isPlaying = false, isShuffle = false, isRepeat = false;
+
+    const audio = new Audio();
+    audio.volume = volume;
+
+    // Player controls
+    const playBtn = document.getElementById('play');
+    const prevBtn = document.getElementById('prev');
+    const nextBtn = document.getElementById('next');
+    const shuffleBtn = document.getElementById('shuffle');
+    const repeatBtn = document.getElementById('repeat');
+    const currentTimeEl = document.getElementById('current-time');
+    const durationEl = document.getElementById('duration');
+    const progressContainer = document.getElementById('progress-container');
+    const progressEl = document.getElementById('progress');
+
+    // Volume controls
+    const volDownBtn = document.getElementById('vol-down');
+    const volUpBtn = document.getElementById('vol-up');
+    const volContainer = document.getElementById('vol-container');
+    const volProgress = document.getElementById('vol-progress');
+
+    // Footer song info elements
+    const footerSongTitle = document.querySelector("footer h3");
+    const footerArtistName = document.querySelector("footer p");
+    const footerAlbumCover = document.querySelector("footer img");
+
+    function loadSong(index) {
+      const song = songs[index];
+      audio.src = song.src;
+      footerSongTitle.textContent = song.title;
+      footerArtistName.textContent = song.artist;
+      footerAlbumCover.src = song.cover;
+      localStorage.setItem("currentSongIndex", index);
+    }
+
+    function updatePlayButton() {
+      playBtn.innerHTML = isPlaying 
+        ? '<i class="fas fa-pause-circle text-2xl"></i>' 
+        : '<i class="fas fa-play-circle text-2xl"></i>';
+    }
+
+    function playSong() {
+      audio.play();
+      isPlaying = true;
+      updatePlayButton();
+    }
+
+    function pauseSong() {
+      audio.pause();
+      isPlaying = false;
+      updatePlayButton();
+    }
+
+    function togglePlay() {
+      isPlaying ? pauseSong() : playSong();
+    }
+
+    function nextSong() {
+      if(isShuffle) {
+        currentSongIndex = Math.floor(Math.random() * songs.length);
+      } else {
+        currentSongIndex = (currentSongIndex + 1) % songs.length;
+      }
+      loadSong(currentSongIndex);
+      playSong();
+    }
+
+    function prevSong() {
+      if(isShuffle) {
+        currentSongIndex = Math.floor(Math.random() * songs.length);
+      } else {
+        currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+      }
+      loadSong(currentSongIndex);
+      playSong();
+    }
+
+    shuffleBtn.addEventListener('click', () => {
+      isShuffle = !isShuffle;
+      shuffleBtn.classList.toggle("text-green-500", isShuffle);
+    });
+
+    repeatBtn.addEventListener('click', () => {
+      isRepeat = !isRepeat;
+      repeatBtn.classList.toggle("text-green-500", isRepeat);
+    });
+
+    playBtn.addEventListener('click', togglePlay);
+    nextBtn.addEventListener('click', nextSong);
+    prevBtn.addEventListener('click', prevSong);
+
+    // Update progress bar and time labels
+    audio.addEventListener('timeupdate', () => {
+      if(audio.duration) {
+        const progressPercent = (audio.currentTime / audio.duration) * 100;
+        progressEl.style.width = progressPercent + "%";
+        currentTimeEl.textContent = formatTime(audio.currentTime);
+        durationEl.textContent = formatTime(audio.duration);
+      }
+    });
+
+    progressContainer.addEventListener('click', (e) => {
+      const rect = progressContainer.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const width = progressContainer.offsetWidth;
+      audio.currentTime = (clickX/width) * audio.duration;
+    });
+
+    audio.addEventListener('ended', () => {
+      if(isRepeat) {
+        audio.currentTime = 0;
+        playSong();
+      } else {
+        nextSong();
+      }
+    });
+
+    function formatTime(time) {
+      const minutes = Math.floor(time/60);
+      const seconds = Math.floor(time % 60);
+      return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+    }
+
+    // Volume controls
+    volDownBtn.addEventListener('click', () => {
+      volume = Math.max(0, volume - 0.1);
+      audio.volume = volume;
+      volProgress.style.width = (volume * 100) + "%";
+      localStorage.setItem("volume", volume);
+    });
+
+    volUpBtn.addEventListener('click', () => {
+      volume = Math.min(1, volume + 0.1);
+      audio.volume = volume;
+      volProgress.style.width = (volume * 100) + "%";
+      localStorage.setItem("volume", volume);
+    });
+
+    volContainer.addEventListener('click', (e) => {
+      const rect = volContainer.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const width = volContainer.offsetWidth;
+      volume = Math.min(1, Math.max(0, clickX/width));
+      audio.volume = volume;
+      volProgress.style.width = (volume * 100) + "%";
+      localStorage.setItem("volume", volume);
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      if(e.key === " ") {
+        e.preventDefault();
+        togglePlay();
+      } else if(e.key === "ArrowRight") {
+        nextSong();
+      } else if(e.key === "ArrowLeft") {
+        prevSong();
+      }
+    });
+
+    // When an album card is clicked, save current playback state and navigate to song details
+    document.querySelectorAll('.album-card').forEach(card => {
+      card.addEventListener('click', function(){
+        const index = this.getAttribute('data-index');
+        localStorage.setItem("currentSongIndex", currentSongIndex);
+        localStorage.setItem("savedTime", audio.currentTime);
+        localStorage.setItem("isPlaying", isPlaying);
+        window.location.href = "song.html?index=" + index;
+      });
+    });
+
+    // Initialize
+    loadSong(currentSongIndex);
+    updatePlayButton();
+  </script>
+</body>
+</html>
